@@ -6,25 +6,25 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import omok.base.OmokDialog;
-import omok.model.Board;
-import omok.model.Player;
 
 public privileged  aspect AddSound {
+	//Here the Folder for sounds is defined
 	private static final String SOUND_DIR = "/sounds/";
-	private static final boolean DISABLED = false;
+	
+	//After advice checking for Make Move
 	after(OmokDialog dialog): this(dialog)
     && execution(void OmokDialog.makeMove(..)) {
-    if (DISABLED) { 
-        return;
-    }
-    if(Board.isWonBy(OmokDialog.player))
+	//if the Game is won play the won sound
+    if(dialog.board.isGameOver())
     {
     	playAudio("piano2.wav");
     }
     else
     {
-    	if(OmokDialog.player.name().equals("White"))
+    	//if White moves play sound
+    	if(dialog.player.name().equals("White"))
     		playAudio("asd.wav");
+    	//if else play second player sound
     	else
     		playAudio("fgh.wav");
     }  
